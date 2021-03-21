@@ -170,7 +170,7 @@ exports.addHurdle = functions.https.onCall(async (data, context) => {
         };
     }
 
-    const hurdle = await repository.addHurdle(admin, data['dream_id'], data['title']);
+    await repository.addHurdle(admin, data['dream_id'], data['title']);
 
     console.log('Hurdle has been successfully added');
 
@@ -295,3 +295,21 @@ exports.updateHurdle = functions.https.onCall(async (data, context) => {
 //////////////
 // FINDINGS //
 //////////////
+
+
+
+///////////////
+// LISTENERS //
+///////////////
+
+exports.onCreateHurdleListener = functions.firestore.document('dreams/{dreamId}/hurdles/{hurdleId}').onCreate(async (data, context) => {
+    const dreamId = context.params['dreamId'];
+    const hurdleId = context.params['hurdleId'];
+
+    await repository.addFinding(admin, dreamId, hurdleId, 'What part of the hurdle addresses uncertainty?', '', 1);
+    await repository.addFinding(admin, dreamId, hurdleId, 'What part of the hurdle is based on unchallenged assumptions?', '', 2);
+    await repository.addFinding(admin, dreamId, hurdleId, 'How is the hurdle impacting existing reality?', '', 3);
+    await repository.addFinding(admin, dreamId, hurdleId, 'What is the new model that makes the hurdle obsolete?', '', 4);
+
+    console.log("Added blank findings to hurdle '" + hurdleId + "'");
+});
