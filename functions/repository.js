@@ -7,7 +7,7 @@ module.exports = {
     ////////////
     dreamExists: async function(admin, dreamId) {
         return await admin.firestore().collection(dreams).doc(dreamId).get().then(doc => {
-            console.log('Dream \'' + dreamId + '\' exists: ' + doc.exists.toString().toUpperCase());
+            console.log('Dream \'' + dreamId + '\' exists: ' + doc.exists);
             return doc.exists;
         });
     },
@@ -46,13 +46,13 @@ module.exports = {
     /////////////
     hurdlesExist: async function(admin, dreamId) {
         return await admin.firestore().collection(dreams).doc(dreamId).collection(hurdles).get().then(snapshot => {
-            console.log('Hurdles exist in dreamId \'' + dreamId + '\': ' + !snapshot.empty.toString().toUpperCase());
+            console.log('Hurdles exist in dreamId \'' + dreamId + '\': ' + !snapshot.empty);
             return !snapshot.empty;
         });
     },
     hurdleExists: async function(admin, dreamId, hurdleId) {
         return await admin.firestore().collection(dreams).doc(dreamId).collection(hurdles).doc(hurdleId).get().then(doc => {
-            console.log('Hurdle \'' + hurdleId + '\' exists: ' + doc.exists.toString().toUpperCase());
+            console.log('Hurdle \'' + hurdleId + '\' exists: ' + doc.exists);
             return doc.exists;
         });
     },
@@ -85,7 +85,7 @@ module.exports = {
     /////////////
     findingExists: async function(admin, dreamId, hurdleId, findingId) {
         return await admin.firestore().collection(dreams).doc(dreamId).collection(hurdles).doc(hurdleId).collection(findings).doc(findingId).get().then(doc => {
-            console.log('Finding \'' + findingId + '\' exists: ' + doc.exists.toString().toUpperCase());
+            console.log('Finding \'' + findingId + '\' exists: ' + doc.exists);
             return doc.exists;
         });
     },
