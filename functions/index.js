@@ -115,7 +115,15 @@ exports.deleteDream = functions.https.onCall(async (data, context) => {
         };
     }
 
-    //TODO: Do hurdles exist? Only delete if no hurdle available
+    const hurdlesExist = await repository.hurdlesExist(admin, data['dream_id']);
+
+    if (hurdlesExist) {
+        console.log("Dream '" + data['dream_id'] + "' is not empty");
+        return {
+            "success": false,
+            "message": 'Dreams with hurdles cannot be deleted'
+        };
+    }
 
     await repository.deleteDream(admin, data['dream_id']);
 

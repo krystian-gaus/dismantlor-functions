@@ -44,6 +44,12 @@ module.exports = {
     /////////////
     // HURDLES //
     /////////////
+    hurdlesExist: async function(admin, dreamId) {
+        return await admin.firestore().collection(dreams).doc(dreamId).collection(hurdles).get().then(snapshot => {
+            console.log('Hurdles exist in dreamId \'' + dreamId + '\': ' + !snapshot.empty.toString().toUpperCase());
+            return !snapshot.empty;
+        });
+    },
     hurdleExists: async function(admin, dreamId, hurdleId) {
         return await admin.firestore().collection(dreams).doc(dreamId).collection(hurdles).doc(hurdleId).get().then(doc => {
             console.log('Hurdle \'' + hurdleId + '\' exists: ' + doc.exists.toString().toUpperCase());
