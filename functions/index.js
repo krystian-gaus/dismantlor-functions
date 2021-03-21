@@ -221,8 +221,6 @@ exports.deleteHurdle = functions.https.onCall(async (data, context) => {
         };
     }
 
-    //TODO: Delete findings
-
     await repository.deleteHurdle(admin, data['dream_id'], data['hurdle_id']);
 
     console.log('Hurdle has been successfully deleted');
@@ -312,4 +310,13 @@ exports.onCreateHurdleListener = functions.firestore.document('dreams/{dreamId}/
     await repository.addFinding(admin, dreamId, hurdleId, 'What is the new model that makes the hurdle obsolete?', '', 4);
 
     console.log("Added blank findings to hurdle '" + hurdleId + "'");
+});
+
+exports.onDeleteHurdleListener = functions.firestore.document('dreams/{dreamId}/hurdles/{hurdleId}').onDelete(async (data, context) => {
+    const dreamId = context.params['dreamId'];
+    const hurdleId = context.params['hurdleId'];
+
+    await repository.deleteFindingsByHurdleId(admin, dreamId, hurdleId);
+
+    console.log("Deleted blank findings of hurdle '" + hurdleId + "'");
 });

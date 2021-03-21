@@ -126,5 +126,14 @@ module.exports = {
     deleteFinding: async function(admin, dreamId, hurdleId, findingId) {
         return await admin.firestore().collection(dreams).doc(dreamId).collection(hurdles).doc(hurdleId).collection(findings).doc(findingId).delete()
             .then(() => console.log('Deleting finding \'' + findingId + '\'...'));
+    },
+    deleteFindingsByHurdleId: async function(admin, dreamId, hurdleId) {
+        return await admin.firestore().collection(dreams).doc(dreamId).collection(hurdles).doc(hurdleId).collection(findings).get().then((snapshot) => {
+            console.log('Deleting blank findings of a deleted hurdle...');
+            let docs = snapshot.docs;
+            for (let doc of docs) {
+                doc.ref.delete();
+            }
+        });
     }
 };
