@@ -170,7 +170,7 @@ exports.addHurdle = functions.https.onCall(async (data, context) => {
         };
     }
 
-    await repository.addHurdle(admin, data['dream_id'], data['title']);
+    const hurdle = await repository.addHurdle(admin, data['dream_id'], data['title']);
 
     console.log('Hurdle has been successfully added');
 
