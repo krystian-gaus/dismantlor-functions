@@ -204,7 +204,7 @@ exports.deleteHurdle = functions.https.onCall(async (data, context) => {
     const exists = await repository.hurdleExists(admin, data['dream_id'], data['hurdle_id']);
 
     if (!exists) {
-        console.log("Hurdle ID '" + data['dream_id'] + "' does not exist");
+        console.log("Hurdle ID '" + data['hurdle_id'] + "' does not exist");
         return {
             "success": false,
             "message": 'Hurdle ID does not exist'
@@ -294,7 +294,105 @@ exports.updateHurdle = functions.https.onCall(async (data, context) => {
 // FINDINGS //
 //////////////
 
+// the finding won't be actually deleted
+// only the content (answer) will be emptied
+exports.removeFinding = functions.https.onCall(async (data, context) => {
+    if (!context.auth) {
+        throw new Error('Only authenticated users are allowed to remove findings');
+    }
 
+    if (stringValidator.isInvalidString(data['dream_id'])) {
+        console.log('Dream ID is invalid');
+        return {
+            "success": false,
+            "message": 'Dream ID is invalid'
+        };
+    }
+
+    if (stringValidator.isInvalidString(data['hurdle_id'])) {
+        console.log('Hurdle ID is invalid');
+        return {
+            "success": false,
+            "message": 'Hurdle ID is invalid'
+        };
+    }
+
+    if (stringValidator.isInvalidString(data['finding_id'])) {
+        console.log('Finding ID is invalid');
+        return {
+            "success": false,
+            "message": 'Finding ID is invalid'
+        };
+    }
+
+    const exists = await repository.findingExists(admin, data['dream_id'], data['hurdle_id'], data['finding_id']);
+
+    if (!exists) {
+        console.log("Finding ID '" + data['finding_id'] + "' does not exist");
+        return {
+            "success": false,
+            "message": 'Finding ID does not exist'
+        };
+    }
+
+    await repository.updateFinding(admin, data['dream_id'], data['hurdle_id'], data['finding_id'], '');
+
+    console.log('Finding has been successfully removed');
+
+    return {
+        "success": true,
+        "message": "Findings have been successfully removed"
+    };
+});
+
+exports.updateFinding = functions.https.onCall(async (data, context) => {
+    if (!context.auth) {
+        throw new Error('Only authenticated users are allowed to update findings');
+    }
+
+    if (stringValidator.isInvalidString(data['dream_id'])) {
+        console.log('Dream ID is invalid');
+        return {
+            "success": false,
+            "message": 'Dream ID is invalid'
+        };
+    }
+
+    if (stringValidator.isInvalidString(data['hurdle_id'])) {
+        console.log('Hurdle ID is invalid');
+        return {
+            "success": false,
+            "message": 'Hurdle ID is invalid'
+        };
+    }
+
+    if (stringValidator.isInvalidString(data['finding_id'])) {
+        console.log('Finding ID is invalid');
+        return {
+            "success": false,
+            "message": 'Finding ID is invalid'
+        };
+    }
+
+    const exists = await repository.findingExists(admin, data['dream_id'], data['hurdle_id'], data['finding_id']);
+
+    if (!exists) {
+        console.log("Finding ID '" + data['finding_id'] + "' does not exist");
+        return {
+            "success": false,
+            "message": 'Finding ID does not exist'
+        };
+    }
+
+    await repository.updateFinding(admin, data['dream_id'], data['hurdle_id'], data['finding_id'], data['answer']);
+
+    console.log('Finding has been successfully updated');
+
+    return {
+        "success": true,
+        "message": "Findings have been successfully updated"
+    };
+});
 
 ///////////////
 // LISTENERS //
