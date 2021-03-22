@@ -17,9 +17,6 @@ module.exports = {
             return !snapshot.empty;
         });
     },
-    getDream: async function(admin, dreamId) {
-        return await admin.firestore().collection(dreams).doc(dreamId).get().then(doc => doc.data());
-    },
     addDream: async function(admin, title) {
         const timestamp = admin.firestore.FieldValue.serverTimestamp();
         return await admin.firestore().collection(dreams).add({
@@ -62,9 +59,6 @@ module.exports = {
             return !snapshot.empty;
         });
     },
-    getHurdle: async function(admin, dreamId, hurdleId) {
-        return await admin.firestore().collection(dreams).doc(dreamId).collection(hurdles).doc(hurdleId).get().then(doc => doc.data());
-    },
     addHurdle: async function(admin, dreamId, title) {
         const timestamp = admin.firestore.FieldValue.serverTimestamp();
         return await admin.firestore().collection(dreams).doc(dreamId).collection(hurdles).add({
@@ -101,9 +95,6 @@ module.exports = {
             return doc.exists;
         });
     },
-    getFinding: async function(admin, dreamId, hurdleId, findingId) {
-        return await admin.firestore().collection(dreams).doc(dreamId).collection(hurdles).doc(hurdleId).collection(findings).doc(findingId).get().then(doc => doc.data());
-    },
     addFinding: async function(admin, dreamId, hurdleId, question, answer, ranking) {
         const timestamp = admin.firestore.FieldValue.serverTimestamp();
         return await admin.firestore().collection(dreams).doc(dreamId).collection(hurdles).doc(hurdleId).collection(findings).add({
@@ -122,10 +113,6 @@ module.exports = {
             answer: answer,
             updated: admin.firestore.FieldValue.serverTimestamp(),
         }).then(() => console.log('Updated finding \'' + findingId + '\''));
-    },
-    deleteFinding: async function(admin, dreamId, hurdleId, findingId) {
-        return await admin.firestore().collection(dreams).doc(dreamId).collection(hurdles).doc(hurdleId).collection(findings).doc(findingId).delete()
-            .then(() => console.log('Deleting finding \'' + findingId + '\'...'));
     },
     deleteFindingsByHurdleId: async function(admin, dreamId, hurdleId) {
         return await admin.firestore().collection(dreams).doc(dreamId).collection(hurdles).doc(hurdleId).collection(findings).get().then((snapshot) => {
