@@ -402,10 +402,17 @@ exports.onCreateHurdleListener = functions.firestore.document('dreams/{dreamId}/
     const dreamId = context.params['dreamId'];
     const hurdleId = context.params['hurdleId'];
 
-    await repository.addFinding(admin, dreamId, hurdleId, 'What part of the hurdle addresses uncertainty?', '', 1);
-    await repository.addFinding(admin, dreamId, hurdleId, 'What part of the hurdle is based on unchallenged assumptions?', '', 2);
-    await repository.addFinding(admin, dreamId, hurdleId, 'How is the hurdle impacting existing reality?', '', 3);
-    await repository.addFinding(admin, dreamId, hurdleId, 'What is the new model that makes the hurdle obsolete?', '', 4);
+    await repository.addFinding(admin, dreamId, hurdleId, 'What do you know about the hurdle?', '', 1);
+    await repository.addFinding(admin, dreamId, hurdleId, 'Is there a known or assumed part in the hurdle?', '', 2);
+    await repository.addFinding(admin, dreamId, hurdleId, 'What are the assumptions that have been taken for granted?', '', 3);
+    await repository.addFinding(admin, dreamId, hurdleId, 'In which cases, scenarios or mind models are these assumptions not true?', '', 4);
+    await repository.addFinding(admin, dreamId, hurdleId, 'How is the hurdle impacting the existing reality?', '', 5);
+    await repository.addFinding(admin, dreamId, hurdleId, 'What is the reality model the hurdle is part of?', '', 6);
+    await repository.addFinding(admin, dreamId, hurdleId, 'What are models in which the hurdle is obsolete?', '', 7);
+    await repository.addFinding(admin, dreamId, hurdleId, 'In which instances are these models already operational?', '', 8);
+    await repository.addFinding(admin, dreamId, hurdleId, 'What are the building blocks of this model?', '', 9);
+    await repository.addFinding(admin, dreamId, hurdleId, 'How does the model de-escalate?', '', 10);
+    await repository.addFinding(admin, dreamId, hurdleId, 'How can we add more options to help the MESH succeed?', '', 11);
 
     console.log("Added blank findings to hurdle '" + hurdleId + "'");
 });
