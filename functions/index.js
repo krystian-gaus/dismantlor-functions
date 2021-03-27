@@ -27,7 +27,7 @@ exports.addDream = functions.https.onCall(async (data, context) => {
         console.log('Dream title ' + data['title'] + ' already exists');
         return {
             "success": false,
-            "message": 'Dream title ' + data['title'] + ' already exists'
+            "message": 'Dream title already exists'
         };
     }
 
@@ -115,13 +115,13 @@ exports.updateDream = functions.https.onCall(async (data, context) => {
         };
     }
 
-    const titleExists = await repository.dreamTitleExists(admin, data['title']);
+    const titleExists = await repository.dreamTitleWithDifferentIdExists(admin, data['dream_id'], data['title']);
 
     if (titleExists) {
         console.log('Dream title ' + data['title'] + ' already exists');
         return {
             "success": false,
-            "message": 'Dream title ' + data['title'] + ' already exists'
+            "message": 'Dream title already exists'
         };
     }
 
@@ -166,7 +166,7 @@ exports.addHurdle = functions.https.onCall(async (data, context) => {
         console.log('Hurdle title ' + data['title'] + ' already exists');
         return {
             "success": false,
-            "message": 'Hurdle title ' + data['title'] + ' already exists'
+            "message": 'Hurdle title already exists'
         };
     }
 
@@ -270,13 +270,13 @@ exports.updateHurdle = functions.https.onCall(async (data, context) => {
         };
     }
 
-    const titleExists = await repository.hurdleTitleExists(admin, data['dream_id'], data['title']);
+    const titleExists = await repository.hurdleTitleWithDifferentIdExists(admin, data['dream_id'], data['hurdle_id'], data['title']);
 
     if (titleExists) {
         console.log('Hurdle title ' + data['title'] + ' already exists');
         return {
             "success": false,
-            "message": 'Hurdle title ' + data['title'] + ' already exists'
+            "message": 'Hurdle title already exists'
         };
     }
 

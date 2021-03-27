@@ -17,6 +17,12 @@ module.exports = {
             return !snapshot.empty;
         });
     },
+    dreamTitleWithDifferentIdExists: async function(admin, dreamId, title) {
+        return await admin.firestore().collection(dreams).where('titleLower', '==', title.toLowerCase()).where(admin.firestore.FieldPath.documentId(), '!=', dreamId).get().then(snapshot => {
+            console.log('Dream title \'' + title + '\' exists: ' + !snapshot.empty);
+            return !snapshot.empty;
+        });
+    },
     addDream: async function(admin, title) {
         const timestamp = admin.firestore.FieldValue.serverTimestamp();
         return await admin.firestore().collection(dreams).add({
@@ -57,6 +63,12 @@ module.exports = {
     },
     hurdleTitleExists: async function(admin, dreamId, title) {
         return await admin.firestore().collection(dreams).doc(dreamId).collection(hurdles).where('titleLower', '==', title.toLowerCase()).get().then(snapshot => {
+            console.log('Hurdle title \'' + title + '\' exists: ' + !snapshot.empty);
+            return !snapshot.empty;
+        });
+    },
+    hurdleTitleWithDifferentIdExists: async function(admin, dreamId, hurdleId, title) {
+        return await admin.firestore().collection(dreams).doc(dreamId).collection(hurdles).where('titleLower', '==', title.toLowerCase()).where(admin.firestore.FieldPath.documentId(), '!=', hurdleId).get().then(snapshot => {
             console.log('Hurdle title \'' + title + '\' exists: ' + !snapshot.empty);
             return !snapshot.empty;
         });
