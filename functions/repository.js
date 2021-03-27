@@ -12,7 +12,7 @@ module.exports = {
         });
     },
     dreamTitleExists: async function(admin, title) {
-        return await admin.firestore().collection(dreams).where('title', '==', title).get().then(snapshot => {
+        return await admin.firestore().collection(dreams).where('titleLower', '==', title.toLowerCase()).get().then(snapshot => {
             console.log('Dream title \'' + title + '\' exists: ' + !snapshot.empty);
             return !snapshot.empty;
         });
@@ -21,6 +21,7 @@ module.exports = {
         const timestamp = admin.firestore.FieldValue.serverTimestamp();
         return await admin.firestore().collection(dreams).add({
             title: title,
+            titleLower: title.toLowerCase(),
             created: timestamp,
             updated: timestamp,
         }).then(doc => {
@@ -31,6 +32,7 @@ module.exports = {
     updateDream: async function(admin, dreamId, title) {
         return await admin.firestore().collection(dreams).doc(dreamId).update({
             title: title,
+            titleLower: title.toLowerCase(),
             updated: admin.firestore.FieldValue.serverTimestamp(),
         }).then(() => console.log('Updated dream \'' + dreamId + '\''));
     },
@@ -54,7 +56,7 @@ module.exports = {
         });
     },
     hurdleTitleExists: async function(admin, dreamId, title) {
-        return await admin.firestore().collection(dreams).doc(dreamId).collection(hurdles).where('title', '==', title).get().then(snapshot => {
+        return await admin.firestore().collection(dreams).doc(dreamId).collection(hurdles).where('titleLower', '==', title.toLowerCase()).get().then(snapshot => {
             console.log('Hurdle title \'' + title + '\' exists: ' + !snapshot.empty);
             return !snapshot.empty;
         });
@@ -63,6 +65,7 @@ module.exports = {
         const timestamp = admin.firestore.FieldValue.serverTimestamp();
         return await admin.firestore().collection(dreams).doc(dreamId).collection(hurdles).add({
             title: title,
+            titleLower: title.toLowerCase(),
             created: timestamp,
             updated: timestamp,
         }).then(doc => {
@@ -73,6 +76,7 @@ module.exports = {
     updateHurdle: async function(admin, dreamId, hurdleId, title) {
         return await admin.firestore().collection(dreams).doc(dreamId).collection(hurdles).doc(hurdleId).update({
             title: title,
+            titleLower: title.toLowerCase(),
             updated: admin.firestore.FieldValue.serverTimestamp(),
         }).then(() => console.log('Updated hurdle \'' + hurdleId + '\''));
     },
